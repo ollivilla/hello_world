@@ -1,0 +1,170 @@
+# -*- coding: utf-8 -*-
+
+# ver 4.0 changelog:
+# * lisatud tulemuste logimine faili
+
+from random import randint
+import random
+import operator
+from datetime import datetime
+
+# MUUTUJAD
+raskus1 = 1
+raskus2 = 20
+tehted = {
+        '+':operator.add,
+        '-':operator.sub,
+        #'*':operator.mul,
+        #'/':operator.truediv
+        }
+kasutaja_vastus = ''
+oige_vastus_count = 0
+vale_vastus_count = 0
+voib_eksida = 2 # arvutimaailmas tähendab see, et loendatakse 0-2 ehk 3 korda
+proovi_uuesti_count = 0
+summary_file = open ('tulemused.txt', 'a') # avab faili a - append (lisamise) modes
+
+print ("-------------------------------------------------------------")
+print ("TERE TULEMAST ARVUTAMA",raskus2,"PIIRES!\n\nProgrammist väljumiseks kirjuta vastuseks 'e' ja vajuta ENTER")
+print ("-------------------------------------------------------------\n")
+
+while kasutaja_vastus != 'e':                           # Niikaua, kuni ei sisestata väljumise tähist
+    
+    vali_tehe = random.choice(list(tehted.keys()))      # genereeritakse random tehe
+#    print ("Logi: Tehe on:",vali_tehe)
+    arv1 = random.randint(raskus1, raskus2)             # ja kaks arvu
+#   print ("Logi: Arv1 on:",arv1)
+    arv2 = random.randint(raskus1, raskus2)
+#    print ("Logi: Arv2 on",arv2)
+
+    if vali_tehe == ('+'):                              # Kui tehe on liitmine,
+        vastus = arv1 + arv2                            # tee tehe
+
+        while vastus > raskus2:                         # Niikaua, kuni vastus on suurem, kui defineeritud raskustase (muutuja raskus2)
+            arv1 = random.randint(raskus1, raskus2)     # genereeritakse uued arvud
+            arv2 = random.randint(raskus1, raskus2)
+#            print ("Logi: Uus arv1 on: ",arv1)
+#            print ("Logi: Uus arv2 on: ",arv2)
+            vastus = arv1 + arv2                        # ja siis tehakse tehe uuesti   
+            
+        else:                                           # Vastasel juhul ehk kuni vastus on raskustaseme piires
+#            print ("Logi: Proovi uuesti kordaja4:",proovi_uuesti_count)                    
+            print("Arvuta summa: ", arv1, '+', arv2)    # näidatakse kasutajale tehet
+            kasutaja_vastus = input ("Sinu vastus: ")   # ja küsitakse sisestada tehte vastus
+            proovi_uuesti_count = 0
+#            print ("Logi: Proovi uuesti kordaja_A:",proovi_uuesti_count)
+          
+            if kasutaja_vastus == str(vastus):          # Kui tehte vastus ja kasutaja sisestatud vastus on sama
+                print ("\n\t---------")
+                print ("\t| ÕIGE! |")                   # näidatakse seda ka kasutajale
+                print ("\t---------\n")
+                oige_vastus_count = oige_vastus_count + 1   # ning loendatakse õige vastus muutujasse
+
+            else:
+                while kasutaja_vastus != str(vastus) and kasutaja_vastus != 'e' and proovi_uuesti_count != voib_eksida:
+                    print ("\n\t-------------------------------")
+                    print ("\t| VALE VASTUS, PROOVI UUESTI! |")                        
+                    print ("\t-------------------------------\n")
+                    vale_vastus_count = vale_vastus_count + 1
+                    proovi_uuesti_count = proovi_uuesti_count + 1 
+#                    print ("Logi: Proovi uuesti kordaja_G: ",proovi_uuesti_count)
+                    kasutaja_vastus = input ("Sinu uus vastus: ")
+                    
+                    if kasutaja_vastus != str(vastus) and kasutaja_vastus != 'e' and proovi_uuesti_count == voib_eksida:
+                        print ("\n\t-------------------------------")
+                        print ("\t|         VALE VASTUS         |")
+                        print ("\t| Jätame selle praegu vahele   ")
+                        print ("\t-------------------------------\n")
+#                        print ("Logi: Proovi uuesti kordaja_H: ",proovi_uuesti_count)
+                    
+                    elif kasutaja_vastus == str(vastus) and kasutaja_vastus != 'e' and proovi_uuesti_count <= voib_eksida :
+                        print ("\n\t-----------------")
+                        print ("\t| NÜÜD ON ÕIGE! |")               
+                        print ("\t-----------------\n")
+                        oige_vastus_count = oige_vastus_count + 1
+#                        print ("Logi: Proovi uuesti kordaja_I: ",proovi_uuesti_count)
+                        proovi_uuesti_count = 0
+#                        print ("Logi: Proovi uuesti kordaja_J: ",proovi_uuesti_count)                    
+                                                
+    elif vali_tehe == ('-'):
+        vastus = arv1 - arv2
+
+        while arv1 < arv2:                              # Kuni esimene arv on teisest väiksem
+            arv1 = random.randint(raskus1, raskus2)     # genereeritakse uued arvud, sest praegu pole vaja, et vastus oleks negatiivne
+            arv2 = random.randint(raskus1, raskus2)
+#            print ("Logi: Uus arv1 on: ",arv1)
+#            print ("Logi: Uus arv2 on: ",arv2)            
+            vastus = arv1 - arv2
+
+        else:
+#            print ("Logi: Proovi uuesti kordaja4:",proovi_uuesti_count)
+            print("Arvuta vahe: ", arv1, '-', arv2)
+            kasutaja_vastus = input ("Sinu vastus: ")
+            proovi_uuesti_count = 0
+#            print ("Logi: Proovi uuesti kordaja_F:",proovi_uuesti_count)
+
+            if kasutaja_vastus == str(vastus):
+                print ("\n\t---------")
+                print ("\t| ÕIGE! |")               
+                print ("\t---------\n")
+                oige_vastus_count = oige_vastus_count + 1
+
+            else:
+                while kasutaja_vastus != str(vastus) and kasutaja_vastus != 'e' and proovi_uuesti_count != voib_eksida:
+                    print ("\n\t-------------------------------")
+                    print ("\t| VALE VASTUS, PROOVI UUESTI! |")                        
+                    print ("\t-------------------------------\n")
+                    vale_vastus_count = vale_vastus_count + 1
+                    proovi_uuesti_count = proovi_uuesti_count + 1 
+#                    print ("Logi: Proovi uuesti kordaja_G: ",proovi_uuesti_count)
+                    kasutaja_vastus = input ("Sinu uus vastus: ")
+                    
+                    if kasutaja_vastus != str(vastus) and kasutaja_vastus != 'e' and proovi_uuesti_count == voib_eksida:
+                        print ("\n\t-------------------------------")
+                        print ("\t|         VALE VASTUS         |")
+                        print ("\t| Jätame selle praegu vahele   ")
+                        print ("\t-------------------------------\n")
+                        vale_vastus_count = vale_vastus_count + 1
+#                        print ("Logi: Proovi uuesti kordaja_H: ",proovi_uuesti_count)
+                    
+                    elif kasutaja_vastus == str(vastus) and kasutaja_vastus != 'e' and proovi_uuesti_count <= voib_eksida :
+                        print ("\n\t-----------------")
+                        print ("\t| NÜÜD ON ÕIGE! |")               
+                        print ("\t-----------------\n")
+                        oige_vastus_count = oige_vastus_count + 1
+#                        print ("Logi: Proovi uuesti kordaja_I: ",proovi_uuesti_count)
+                        proovi_uuesti_count = 0
+#                        print ("Logi: Proovi uuesti kordaja_J: ",proovi_uuesti_count)
+                
+else:
+    if kasutaja_vastus == 'e':                                  # Kui kasutaja sisestas "e" ehk väljumise tähise
+        print ("\n\t-------------------------")
+        print ("\tOled programmist väljumas.\n")                # nädatakse, et programm sulgub
+        print ("\tÕigeid vastuseid oli ", oige_vastus_count)    #ja õiged ning valed vastused
+        print ("\tValesid vastuseid oli ", vale_vastus_count)
+        print ("\n\tTule varsti tagasi :)")
+        print ("\t-------------------------")
+        
+        # Kirjutab tulemused faili:
+        aeg = datetime.now()
+        p2ev = str(aeg.day)
+        kuu = str(aeg.month)
+        aasta = str(aeg.year)
+        tund = str(aeg.hour)
+        minut = str(aeg.minute)
+                       
+        kuupaev = p2ev +'.'+ kuu +'.'+ aasta +' ' + tund +':' + minut
+        summary_file.write (kuupaev)
+        
+        summary_oige_vastus = ("Õigeid vastuseid oli" , oige_vastus_count)
+        summary_vale_vastus = ("Valesid vastuseid oli" , vale_vastus_count)
+        
+        s = str(summary_oige_vastus)
+        t = str(summary_vale_vastus)
+        summary_file.write ('\n')
+        summary_file.write (s)
+        summary_file.write ('\n')
+        summary_file.write (t)
+        summary_file.close()
+                
+        kinnitus = input ("\tKinnita väljumine ENTER klahvi vajutusega.")

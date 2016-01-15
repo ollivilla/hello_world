@@ -1,0 +1,39 @@
+#Loan calculator
+from _socket import timeout
+
+# Valem M = L[i(1+i)n]/[(1+i)n-1]
+# M - monthly payment
+# L - loan amount
+# i - interest rate
+# n = number of years
+
+L = int(input ('Sisesta laenu summa suurus: '))
+i = float(input ('Sisesta intressi suurus protsentides: '))
+i = i/100
+i = i/12
+n = int(input ('Sisesta laenu pikkus aastates: '))
+n = n*12
+
+#Laenumakse arvutamine:
+print('Laenusumma on: {0:d}'.format(L))
+print('Intress on: {0:.4f}'.format(i))
+print('Kuid on: {0:d}'.format(n))
+
+
+M = (L *  i * n**(1+i) / ((n**(1+i))-1)
+
+print('Igakuine laenumakse on {0:.2f}: '.format(M))
+
+#Laenumakse arvutamine2:
+a = i/12
+M = L * a * n**(1+a) / n**(1+a)-1
+
+N = (L * i/12) * (n**(1+i)/12) / n**((1+i)/12)-1
+
+print('Igakuine laenumakse on {0:.2f}: '.format(M))
+print('Igakuine laenumakse on {0:.2f}: '.format(N))
+
+
+
+#EMI = [(L*i/12) (1+i/12)^n]/[(1+i/12)^n – 1 ]
+

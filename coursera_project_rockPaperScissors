@@ -1,0 +1,102 @@
+# Rock-paper-scissors-lizard-Spock template
+
+# The key idea of this program is to equate the strings
+# "rock", "paper", "scissors", "lizard", "Spock" to numbers
+# as follows:
+
+# 0 - rock
+# 1 - Spock
+# 2 - paper
+# 3 - lizard
+# 4 - scissors
+
+# A function to assign numeric values to text, 
+# according to the comments above:
+
+def name_to_number(name):
+
+    if name == "rock":
+        name2number = 0
+    
+    elif name == "Spock":
+        name2number = 1
+    
+    elif name == "paper":
+        name2number = 2
+    
+    elif name == "lizard":
+        name2number = 3
+    
+    elif name == "scissors":
+        name2number = 4
+    
+    else:
+        name2number = "Sorry, wrong name."
+    
+    return name2number
+ 
+    # convert number to a name using if/elif/else
+    
+# A function to assign text value to numbers:
+
+def number_to_name(number):
+    
+    if number == 0:
+        number2name = "rock"
+    
+    elif number == 1:
+        number2name = "Spock"
+    
+    elif number == 2:
+        number2name = "paper"
+    
+    elif number == 3:
+        number2name = "lizard"
+    
+    elif number == 4:
+        number2name = "scissors"
+    
+    else:
+        number2name = "Sorry, wrong number."
+    
+    return number2name
+   
+import random
+
+def rpsls(player_choice): 
+    print ("Player chooses", player_choice)
+    
+    # convert the player's choice to corresponding number:
+    player_number = name_to_number(player_choice) 
+        
+    # generate random integers between 0 and 4:
+    comp_number = random.randrange(0, 5)
+    
+    # covert random number to corresponding text
+    comp_choice = number_to_name(comp_number)
+    print ("Computer chooses", comp_choice)
+    
+    # compute difference of player_number and comp_number modulo five:
+    winner = (player_number - comp_number) % 5
+    
+    # determine the winner:
+    if winner == 0:
+        print ("Player and computer tie!")
+    elif winner == 1 or winner == 2:
+        print ("Player wins!")
+    elif winner == 3 or winner == 4:
+        print ("Computer wins!")
+    # just in case any anomalys should appear in calculations:
+    else:
+        print ("Sorry, wrong result - I win :)!")
+        
+    print ("") # blank line to separate consecutive games
+
+    return 
+    
+# test your code - THESE CALLS MUST BE PRESENT IN YOUR SUBMITTED CODE
+rpsls("rock")
+rpsls("Spock")
+rpsls("paper")
+rpsls("lizard")
+rpsls("scissors")

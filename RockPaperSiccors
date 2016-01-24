@@ -1,0 +1,77 @@
+import random
+import atexit
+print ('#### Welcome to "Rock-paper-scissors-lizard-Spock" game ####\n')
+print ('Make your selection between rock/Spock/paper/lizard/scissors/ ')
+print ('To exit, enter "Q"')
+selection_name = input()
+print ('')
+
+
+def name_to_number(selection_name):
+    if selection_name == "rock":
+        name2number = 0
+    elif selection_name == "Spock":
+        name2number = 1    
+    elif selection_name == "paper":
+        name2number = 2
+    elif selection_name == "lizard":
+        name2number = 3
+    elif selection_name == "scissors":
+        name2number = 4
+    else:
+        print ("Wrong name, closing the game")
+   
+    return name2number
+
+def number_to_name(cpu_choice):    
+    if cpu_choice == 0:
+        number2name = "rock"   
+    elif cpu_choice == 1:
+        number2name = "Spock"
+    elif cpu_choice == 2:
+        number2name = "paper"    
+    elif cpu_choice == 3:
+        number2name = "lizard"   
+    elif cpu_choice == 4:
+        number2name = "scissors"    
+    else:
+        print ("Sorry, wrong number.")
+    
+    return number2name
+
+def game(name2number):
+    # let's figure out the opponent's (cpu) selection by random number:
+    cpu_number = random.randrange(0, 5)
+    
+    # covert random number to corresponding text:
+    cpu_word = number_to_name(cpu_number)
+    
+    # convert player's choice to number:
+    player_number = name_to_number(selection_name)
+    
+    # let's print out what the player has chosen:
+    print ('You chose', selection_name)
+
+    # let's print out what the opponent (cpu) has chosen:        
+    print ('The opponent chose', cpu_word)
+
+    # let's calculate the winner:
+    # compute difference of player_number and comp_number modulo five:
+    winner = (player_number - cpu_number) % 6
+
+    # determine the winner:
+    if winner == 0:
+        print ("The result is a tie!")
+    elif winner == 1 or winner == 2:
+        print ("Player wins!")
+    elif winner == 3 or winner == 4:
+        print ("Opponent wins!")
+    # just in case any anomalys should appear in calculations:
+    else:
+        print ('Sorry, you probably entered wrong selection.')
+    
+    print ("") # blank line to the end
+        
+    return 
+
+game(selection_name)

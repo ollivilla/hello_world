@@ -1,0 +1,11 @@
+# Program structure that makse the program easier to 
+# write, understand, maintain
+
+# 7 Steps:
+# 1. define global variables, that can be accessed by handlers
+# 2. define helper functions - help event handlers
+# 3. define classes
+# 4. define event handlers
+# 5. create a frame
+# 6. register event handlers
+# 7. start frame & timers

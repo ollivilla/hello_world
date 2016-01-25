@@ -1,0 +1,15 @@
+# Events:
+
+#    Input:
+#        Button
+#        Text Box
+
+#    Keyboard:
+#        Key up
+#        Key down
+
+#    Mouse:
+#        Click
+#        Drag
+
+#    Timer

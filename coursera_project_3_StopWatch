@@ -5,6 +5,7 @@ import simplegui
 # define global variables
 value = 0
 win_counter = 0
+tries_counter = 0
 
 # define helper function format that converts time
 # in tenths of seconds into formatted string A:BC.D
@@ -22,21 +23,27 @@ def button_handler_start():
     timer.start()
     
 def button_handler_stop():
-    global d, win_counter
-    timer.stop()
-    if d == 0:
+    global d, win_counter, tries_counter
+    
+    tries_counter += 1
+    
+    if d == 0: #d == 0 resulted sometimes in such a race condition that when d = 1 then win_counter was increased
         win_counter += 1
-    return str(win_counter)
+    timer.stop()
+       
+    return win_counter, tries_counter
      
 def button_handler_reset():
-    global win_counter
+    global win_counter, tries_counter
     win_counter = 0
-    timer = simplegui.create_timer(100, timer_handler)
+    tries_counter = 0
+    timer2 = simplegui.create_timer(100, timer_handler)
 
 # define event handler for timer with 0.1 sec interval
 def timer_handler():
     global value
-    value = value + 1
+    (value % 10) == 0
+    value += 1
     return value
 
 timer = simplegui.create_timer(100, timer_handler)
@@ -44,7 +51,8 @@ timer = simplegui.create_timer(100, timer_handler)
 # define draw handler
 def draw_handler(canvas):
     canvas.draw_text(format(value), (38, 80), 32, 'White', 'serif')
-    canvas.draw_text(str(win_counter), (130, 20), 16, 'White', 'serif')
+    canvas.draw_text(str(win_counter) + '/' + str(tries_counter), (100, 20), 20, 'Green', 'serif')
+    
     
 # create frame
 frame = simplegui.create_frame('Stopwatch', 150, 150)

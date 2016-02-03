@@ -7,15 +7,17 @@ import time
 # define global variables
 message = ''
 value = 0
-
-
-
-
+tenths = 0
 
 # define helper function format that converts time
 # in tenths of seconds into formatted string A:BC.D
 def format(t):
+    a = 
+    b = 
+    c = 
+    d = 
     pass
+
     
 # define event handlers for buttons; "Start", "Stop", "Reset"
 def button_handler_start():
@@ -35,7 +37,6 @@ def timer_handler():
     global value
     value = value + 1
 
-
 timer = simplegui.create_timer(100, timer_handler)
 
 # define draw handler
@@ -52,7 +53,7 @@ start_button = frame.add_button('Start', button_handler_start, 50)
 stop_button = frame.add_button('Stop', button_handler_stop, 50)
 reset_button = frame.add_button('Reset', button_handler_reset, 50)
 
-# start frame
+# start frame and timer
 frame.start()
 timer.start()
 

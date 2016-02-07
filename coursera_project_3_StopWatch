@@ -29,7 +29,7 @@ def button_handler_stop():
     if timer.is_running(): # if timer is running, ONLY then stop and increase the tries_counter
         timer.stop()
         tries_counter += 1
-        if d == 0: 
+        if (d % 10 == 0): 
             win_counter += 1
     else:
         print "Log: Stop button -  Timer is not running anyway, Stop action ignored"
@@ -46,7 +46,6 @@ def button_handler_reset(): #resets stopper and game counter values
 # define event handler for timer with 0.1 sec interval
 def timer_handler():
     global value
-    #(value % 10) == 0 # otherwise resulted sometimes in such a race condition that when d = 1 then win_counter was increased
     value += 1
     return value
 
@@ -55,7 +54,7 @@ timer = simplegui.create_timer(100, timer_handler)
 # define draw handler
 def draw_handler(canvas):
     canvas.draw_text(format(value), (38, 80), 32, 'White', 'sans-serif')
-    canvas.draw_text(str(win_counter) + '/' + str(tries_counter), (100, 20), 20, 'Red', 'sans-serif')   
+    canvas.draw_text(str(win_counter) + '/' + str(tries_counter), (100, 20), 20, 'Yellow', 'sans-serif')   
     
 # create frame
 frame = simplegui.create_frame('StopWatch', 150, 150)

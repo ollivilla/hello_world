@@ -1,0 +1,30 @@
+# Create list
+empty_list = []
+print empty_list
+
+num_list = [3, 7, 56, 5, 16, 101]
+print num_list
+
+string_list = ['Olavi', 'Alari', 'Ylari']
+print string_list
+
+other_lists_in_my_list = [[3, 4], ['n', 'b', 'a'], []]
+print other_lists_in_my_list
+
+# Access list
+print len(empty_list)
+print len(num_list) 
+print len(string_list)
+print len(other_lists_in_my_list)
+
+print num_list[4]
+print string_list[1]
+print other_lists_in_my_list[1]
+print "last element:", string_list[-1]
+
+selection = num_list[2:4]
+print selection
+
+# Update list
+string_list[2] = 'what'
+print string_list

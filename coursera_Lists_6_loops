@@ -1,0 +1,78 @@
+def count_odd(numbers):
+    count = 0
+    for num in numbers:
+        if num % 2 == 1:
+            count += 1 
+    return count
+
+def check_odd(numbers):
+    odd = False
+    for num in numbers:
+        if num % 2 == 1:
+            odd = True 
+    return odd
+
+# Lõpetab otsimise, kui on leidnud esimese, mis kriteeriumile vastab
+def check_odd2(numbers2):
+    for num in numbers2:
+        if num % 2 == 1:
+            return True 
+    return False
+
+def remove_odd(numbers): #actually can't change the list being iterated
+    for num in numbers:
+        if num % 2 == 1:
+            numbers.remove(num)
+    return numbers
+
+def remove_odd2(numbers): #doesn't work because if shifts element indexes after removing
+    remove = []
+    for num in numbers:
+        if num % 2 == 1:
+            remove.append(numbers.index(num))
+    
+    for idx in remove:
+        numbers.pop(idx)
+        
+def remove_odd3(numbers):
+    remove = []
+    for num in numbers:
+        if num % 2 == 1:
+            remove.append(num)
+    
+    for num in remove:
+        numbers.remove(num)
+
+def remove_odd4(numbers): #make new list for even numbers
+    newnums = []
+    for num in numbers:
+        if num % 2 == 0:
+            newnums.append(num)
+    return newnums
+
+def run():
+    numbers = [1, 7, 2, 34, 8, 7, 2, 5, 14, 22, 93, 48, 76, 15, 7]
+    numbers2 = [2, 8, 2, 34, 8]
+    print numbers
+    print "Count of odd numbers:",count_odd(numbers)
+    
+    if check_odd(numbers) == True:
+        print "There are odd numbers"
+    else:
+        print "There aren't any odd numbers"
+        
+    if check_odd2(numbers2) == True:
+        print "There are odd numbers"
+    else:
+        print "There aren't any odd numbers"
+        
+#    remove_odd3(numbers)
+#    print numbers
+    
+#    print remove_odd4(numbers)
+    
+    remove_last_odd(numbers)
+    print numbers
+    
+    
+run()

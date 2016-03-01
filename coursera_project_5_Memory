@@ -21,31 +21,24 @@ def new_game():
      
 # define event handlers
 def mouseclick(pos):
-    global card_index, state
+    # add game state logic here
+    global card_index, state, card
+    compare1 = 0
+    compare2 = 0
+    
         
     # determine index for cards
     card_index = pos[0] // 50
     
     # after clicking, add card into exposed list by index if it's already not there
     
-    if exposed[card_index] == True:
-        return
-    else:
+    if exposed[card_index] == False:
         exposed[card_index] = True
-        if state == 0:
-            state = 1
-        elif state == 1:
-            state = 2
-        else:
-            state = 1
-        
-        print "Logi: State on",state
-    
-    
-    
-    
-   
-    # add game state logic here
+        print "BOOM"
+    else:
+        return
+
+
                         
 # cards are logically 50x100 pixels in size    
 def draw(canvas):
@@ -68,12 +61,13 @@ def draw(canvas):
         
         # if card is in exposed list, then draw the card's value in the correct slot
         # card_index + 8 is for fine-tuning of the position of the number
-        if exposed[card]:
+        if exposed[card] == True:
             if card_index == 0:
                 canvas.draw_text(str(deck[card_index]), [(card_index + 8), 70], 65, 'White', 'sans-serif')	 
-            else:
+            elif card_index != 0:
                 card_pos = [(card_index * 50 + 8), 70]
                 canvas.draw_text(str(deck[card_index]), card_pos, 65, 'White', 'sans-serif')	
+
         
 
 

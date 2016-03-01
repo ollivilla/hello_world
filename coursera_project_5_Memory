@@ -25,43 +25,34 @@ def mouseclick(pos):
     # after clicking, add card into exposed list by index
     exposed[card_index] = True
     
-    print card_index
-    print "Exposed list",exposed
-    
-    return pos
    
     # add game state logic here
                         
 # cards are logically 50x100 pixels in size    
 def draw(canvas):
-    global pos
-    pos = []
-    card_pos = []
-
-#    card_index = abc[0] // 50
-#    a = card_index * 50
-#    print a
-#    for card in deck:
-#        card_pos = [card_index, 70]    
     
-    card_pos = [pos[0], 70]
-
     # polygon positions
     poly1 = [0, 0]
     poly2 = [0, 100]
     poly3 = [50, 100]
     poly4 = [50, 0]        
 
-
-    for card in deck:
+    # draw polygons on canvas
+    for card in range(len(deck)):
         canvas.draw_polygon([poly1, poly2, poly3, poly4], 2, 'Brown', 'Green')
         poly1[0] += 50
         poly2[0] += 50
         poly3[0] += 50
         poly4[0] += 50
         
+        # if card is in exposed list, then draw the card's value in the correct slot
+        # card_index + 8 is for fine-tuning of the position of the number
         if exposed[card]:
-            canvas.draw_text(str(deck[card_index]), card_pos, 60, 'White')	
+            if card_index == 0:
+                canvas.draw_text(str(deck[card_index]), [(card_index + 8), 70], 65, 'White', 'sans-serif')	 
+            else:
+                card_pos = [(card_index * 50 + 8), 70]
+                canvas.draw_text(str(deck[card_index]), card_pos, 65, 'White', 'sans-serif')	
         
             
 

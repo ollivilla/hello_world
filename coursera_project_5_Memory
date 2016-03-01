@@ -17,20 +17,36 @@ def new_game():
      
 # define event handlers
 def mouseclick(pos):
-    global card
-    # add game state logic here
+    global card_index
+        
+    # determine index for cards
     card_index = pos[0] // 50
+    
+    # after clicking, add card into exposed list by index
     exposed[card_index] = True
     
     print card_index
-    print exposed
+    print "Exposed list",exposed
+    
+    return pos
+   
+    # add game state logic here
                         
 # cards are logically 50x100 pixels in size    
 def draw(canvas):
-    global exposed
+    global pos
+    pos = []
+    card_pos = []
 
+#    card_index = abc[0] // 50
+#    a = card_index * 50
+#    print a
+#    for card in deck:
+#        card_pos = [card_index, 70]    
     
-    card_pos = [10, 70]
+    card_pos = [pos[0], 70]
+
+    # polygon positions
     poly1 = [0, 0]
     poly2 = [0, 100]
     poly3 = [50, 100]
@@ -45,8 +61,7 @@ def draw(canvas):
         poly4[0] += 50
         
         if exposed[card]:
-            canvas.draw_text(str(deck[card]), card_pos, 60, 'White')	
-            card_pos[0] += 50
+            canvas.draw_text(str(deck[card_index]), card_pos, 60, 'White')	
         
             
 

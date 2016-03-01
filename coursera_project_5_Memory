@@ -5,25 +5,44 @@ import random
 
 deck = range(8) + range(8)
 random.shuffle(deck)
-exposed = [] 
-for i in range(16): exposed.append(False)
+exposed = []
+
+# assign all values  to False in exposed list
+for i in range(len(deck)): exposed.append(False)
 
 print deck
 
 # helper function to initialize globals
 def new_game():
+    global state
+    state = 0
     pass  
 
      
 # define event handlers
 def mouseclick(pos):
-    global card_index
+    global card_index, state
         
     # determine index for cards
     card_index = pos[0] // 50
     
-    # after clicking, add card into exposed list by index
-    exposed[card_index] = True
+    # after clicking, add card into exposed list by index if it's already not there
+    
+    if exposed[card_index] == True:
+        return
+    else:
+        exposed[card_index] = True
+        if state == 0:
+            state = 1
+        elif state == 1:
+            state = 2
+        else:
+            state = 1
+        
+        print "Logi: State on",state
+    
+    
+    
     
    
     # add game state logic here
@@ -37,6 +56,8 @@ def draw(canvas):
     poly3 = [50, 100]
     poly4 = [50, 0]        
 
+
+    
     # draw polygons on canvas
     for card in range(len(deck)):
         canvas.draw_polygon([poly1, poly2, poly3, poly4], 2, 'Brown', 'Green')
@@ -54,8 +75,6 @@ def draw(canvas):
                 card_pos = [(card_index * 50 + 8), 70]
                 canvas.draw_text(str(deck[card_index]), card_pos, 65, 'White', 'sans-serif')	
         
-            
-
 
 
 # create frame and add a button and labels

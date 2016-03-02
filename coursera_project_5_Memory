@@ -8,37 +8,66 @@ random.shuffle(deck)
 exposed = []
 
 # assign all values  to False in exposed list
-for i in range(len(deck)): exposed.append(False)
+for i in range(len(deck)): 
+    exposed.append(False)
 
 print deck
 
 # helper function to initialize globals
 def new_game():
-    global state
-    state = 0
+    global cardsOpen
+    cardsOpen = 0
+    openCard1 = 0
+    openCard2 = 0
     pass  
 
      
 # define event handlers
 def mouseclick(pos):
-    # add game state logic here
-    global card_index, state, card
-    compare1 = 0
-    compare2 = 0
-    
+    global card_index, cardsOpen, openCard1, openCard2
+
         
     # determine index for cards
     card_index = pos[0] // 50
     
     # after clicking, add card into exposed list by index if it's already not there
-    
-    if exposed[card_index] == False:
-        exposed[card_index] = True
-        print "BOOM"
-    else:
+    if exposed[card_index] == True:
         return
+    
+    elif exposed[card_index] == False:
+        exposed[card_index] = True
+    
+    if cardsOpen == 0:
+        exposed[card_index] = True
+        cardsOpen = 1
+        openCard1 = deck[card_index]
+        openCard2 = 0
+    elif cardsOpen == 1:
+        exposed[card_index] = True
+        cardsOpen = 2
+        openCard2 = deck[card_index]       
+                
+    elif cardsOpen == 2:
+       
+        
+        if openCard1 == openCard2:
+            exposed[card_index] = True
+            cardsOpen = 0
+            openCard1 = 0
+            openCard2 = 0
+        else:
+            exposed[card_index] = False
+            cardsOpen = 1
+    
 
-
+       
+    print "Logi: Exposed", exposed
+    print "Logi: State on",cardsOpen
+    print "Logi: Esimese kaardi v22rtus",openCard1
+    print "Logi: Teise kaardi v22rtus",openCard2
+   
+   
+    # add game state logic here
                         
 # cards are logically 50x100 pixels in size    
 def draw(canvas):
@@ -48,8 +77,6 @@ def draw(canvas):
     poly2 = [0, 100]
     poly3 = [50, 100]
     poly4 = [50, 0]        
-
-
     
     # draw polygons on canvas
     for card in range(len(deck)):
@@ -64,12 +91,9 @@ def draw(canvas):
         if exposed[card] == True:
             if card_index == 0:
                 canvas.draw_text(str(deck[card_index]), [(card_index + 8), 70], 65, 'White', 'sans-serif')	 
-            elif card_index != 0:
+            else:
                 card_pos = [(card_index * 50 + 8), 70]
                 canvas.draw_text(str(deck[card_index]), card_pos, 65, 'White', 'sans-serif')	
-
-        
-
 
 # create frame and add a button and labels
 frame = simplegui.create_frame("Memory", 800, 100)

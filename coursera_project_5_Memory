@@ -28,8 +28,7 @@ def new_game():
 # define event handlers
 def mouseclick(pos):
     global card_index, cardsOpen, openCard1, openCard2
-
-        
+      
     # determine index for cards
     card_index = pos[0] // 50
     
@@ -65,28 +64,30 @@ def mouseclick(pos):
         exposed[card_index] = True
         cardsOpen = 2
         openCard2 = deck[card_index]
+        # if they match:
+        if openCard1 == openCard2:
+            openCard2 = deck[card_index]
+            print "Logi: Teise kaardi v22rtus",openCard2
+            print "match"
+            cardsOpen = 0
+            return
+        # if they don't match
+        elif openCard1 != openCard2:
+            print "no match"
+            exposed[card_index] = True
+            openCard2 = 1   
        
     
     # if 2 cards are opened
     elif cardsOpen == 2:       
         exposed[card_index] = True
         cardsOpen = 1
-         # if they match:
-        if openCard1 == openCard2:
-            cardsOpen = 0
-            openCard1 = 0
-            openCard2 = 0
-        # if they don't match
-        elif openCard1 != openCard2:
-            
-            openCard1 = deck[card_index]
-            exposed[card_index] = False
-            #openCard2 = 0    
+         
        
     print "Logi: Exposed", exposed
     print "Logi: State on",cardsOpen
     print "Logi: Esimese kaardi v22rtus",openCard1
-    print "Logi: Teise kaardi v22rtus",openCard2
+    #print "Logi: Teise kaardi v22rtus",openCard2
    
    
     # add game state logic here

@@ -6,9 +6,6 @@ import random
 deck = range(8) + range(8)
 random.shuffle(deck)
 exposed = []
-# line positions
-line_pos1 = [25, 0]
-line_pos2 = [25, 100]
 
 # assign all values  to False in exposed list
 for i in range(len(deck)): 
@@ -22,13 +19,12 @@ def new_game():
     cardsOpen = 0
     openCard1 = 0
     openCard2 = 0
-    pass  
-
+    #pass  
      
 # define event handlers
 def mouseclick(pos):
     global card_index, cardsOpen, openCard1, openCard2
-      
+        
     # determine index for cards
     card_index = pos[0] // 50
     
@@ -50,7 +46,8 @@ def mouseclick(pos):
     if cardsOpen == 0:
         exposed[card_index] = True
         cardsOpen = 1
-        openCard1 = deck[card_index]
+        openCard1 = card_index
+        print "Logi: Esimese kaardi index ja v22rtus",card_index, deck[openCard1]
         
         ################# remove the following later - this is for printing log:
         openCard2 = 0
@@ -63,42 +60,52 @@ def mouseclick(pos):
     elif cardsOpen == 1:
         exposed[card_index] = True
         cardsOpen = 2
-        openCard2 = deck[card_index]
+        openCard2 = card_index
+        print "Logi: Teise kaardi index ja v22rtus",card_index, deck[openCard2]
+        
         # if they match:
-        if openCard1 == openCard2:
-            openCard2 = deck[card_index]
-            print "Logi: Teise kaardi v22rtus",openCard2
-            print "match"
+        if deck[openCard1] == deck[openCard2]:
             cardsOpen = 0
-            return
+            print ""
+            print "MATCH"
+        
         # if they don't match
         elif openCard1 != openCard2:
-            print "no match"
-            exposed[card_index] = True
-            openCard2 = 1   
-       
+            cardsOpen = 2
+            print ""
+            print "NO MATCH"                
+            
     
-    # if 2 cards are opened
-    elif cardsOpen == 2:       
+    # if 2 cards are opened and you click on another card:
+    elif cardsOpen == 2:
+        # close first 2 cards -> set them exposed[card_index] = False
+        for i in range(len(exposed)):
+            deck[openCard1] = False
+            deck[openCard2] = False
         exposed[card_index] = True
+        
+        openCard1 = card_index
+        print "Logi: Esimese kaardi index ja v22rtus",card_index, deck[openCard1]
+        #openCard2 = 0
+        print "Logi: Teise kaardi index ja v22rtus",card_index, deck[openCard2]
         cardsOpen = 1
-         
-       
+
+    print " "   
     print "Logi: Exposed", exposed
     print "Logi: State on",cardsOpen
-    print "Logi: Esimese kaardi v22rtus",openCard1
-    #print "Logi: Teise kaardi v22rtus",openCard2
    
    
     # add game state logic here
                         
 # cards are logically 50x100 pixels in size    
 def draw(canvas):
-    global card_index, line_pos1, line_pos2
-    line_pos1 = [25, 0]
-    line_pos2 = [25, 100] 
+    global card_index
     
-   
+    # line positions
+    line_pos1 = [25, 0]
+    line_pos2 = [25, 100]
+       
+    
     # draw slots on canvas with thick lines
     for card in range(len(deck)):
         canvas.draw_line(line_pos1, line_pos2, 48, 'Green')
@@ -109,7 +116,7 @@ def draw(canvas):
         # card_index + 8 is for fine-tuning of the position of the number
         if exposed[card] == True:	
             canvas.draw_text(str(deck[card]), [8 + (card * 50), 70], 65, 'White', 'sans-serif')	
-
+        
         
 # create frame and add a button and labels
 frame = simplegui.create_frame("Memory", 800, 100)

@@ -19,11 +19,13 @@ def new_game():
     cardsOpen = 0
     openCard1 = 0
     openCard2 = 0
+    turn = 0
     #pass  
      
 # define event handlers
 def mouseclick(pos):
-    global card_index, cardsOpen, openCard1, openCard2
+    global card_index, cardsOpen, openCard1, openCard2, turns
+    turns += 1
         
     # determine index for cards
     card_index = pos[0] // 50
@@ -45,9 +47,11 @@ def mouseclick(pos):
     
     if cardsOpen == 0:
         exposed[card_index] = True
-        cardsOpen = 1
         openCard1 = card_index
+        cardsOpen = 1
         print "Logi: Esimese kaardi index ja v22rtus",card_index, deck[openCard1]
+        print "Logi: Exposed", exposed
+        print "Logi: State on",cardsOpen
         
         ################# remove the following later - this is for printing log:
         openCard2 = 0
@@ -59,47 +63,52 @@ def mouseclick(pos):
     
     elif cardsOpen == 1:
         exposed[card_index] = True
-        cardsOpen = 2
         openCard2 = card_index
+        cardsOpen = 2
+        print ""
+        print "Logi: Esimese kaardi v22rtus",deck[openCard1]
         print "Logi: Teise kaardi index ja v22rtus",card_index, deck[openCard2]
-        
-        # if they match:
-        if deck[openCard1] == deck[openCard2]:
-            cardsOpen = 0
-            print ""
-            print "MATCH"
-        
-        # if they don't match
-        elif openCard1 != openCard2:
-            cardsOpen = 2
-            print ""
-            print "NO MATCH"                
-            
-    
+        print "Logi: Exposed", exposed
+        print "Logi: State on",cardsOpen
+     
     # if 2 cards are opened and you click on another card:
     elif cardsOpen == 2:
-        # close first 2 cards -> set them exposed[card_index] = False
-        for i in range(len(exposed)):
-            deck[openCard1] = False
-            deck[openCard2] = False
-        exposed[card_index] = True
+        
+        # if the last two are a match:
+        if deck[openCard1] == deck[openCard2]:
+            cardsOpen = 1
+            print "MATCH"
+            print ""
+        
+        # if they don't match, close last 2 cards_indexes -> set them = False
+        elif openCard1 != openCard2:
+            cardsOpen = 1
+            print ""
+            print "NO MATCH"
+            exposed[openCard1] = False
+            exposed[openCard2] = False
+            openCard1 = card_index
+        
+        #for i in range(len(exposed)):
+         #   deck[openCard1] = exposed[i]
+            #exposed[i] = False
+         #   deck[openCard2] = exposed[i]
+            #exposed[i] = False
+
+            
         
         openCard1 = card_index
         print "Logi: Esimese kaardi index ja v22rtus",card_index, deck[openCard1]
         #openCard2 = 0
         print "Logi: Teise kaardi index ja v22rtus",card_index, deck[openCard2]
         cardsOpen = 1
-
-    print " "   
-    print "Logi: Exposed", exposed
-    print "Logi: State on",cardsOpen
    
    
     # add game state logic here
                         
 # cards are logically 50x100 pixels in size    
 def draw(canvas):
-    global card_index
+    global card_index, turns
     
     # line positions
     line_pos1 = [25, 0]
@@ -121,7 +130,7 @@ def draw(canvas):
 # create frame and add a button and labels
 frame = simplegui.create_frame("Memory", 800, 100)
 frame.add_button("Reset", new_game)
-label = frame.add_label("Turns = 0")
+label = frame.add_label(("Turns =", turns), 50)
 
 # register event handlers
 frame.set_mouseclick_handler(mouseclick)
